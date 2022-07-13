@@ -24,6 +24,7 @@ libraryDependencies ++= Seq(
   "com.couchbase.client" %% "scala-client" % "1.3.1",
   "io.circe" %% "circe-core" % circeVersion,
   "io.circe" %% "circe-generic" % circeVersion,
+  "io.circe" %% "circe-parser" % circeVersion,
   "org.scala-lang" % "scala-compiler" % scalaVersion.value,
   "org.scalatest" %% "scalatest" % "3.2.12" % Test,
 )

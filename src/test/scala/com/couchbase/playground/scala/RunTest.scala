@@ -9,7 +9,7 @@ class RunTest extends AnyFlatSpec {
     assertResult(Right(42))(m.evalString("13 + 29"))
   }
 
-  "Evaluating non-compiling code" should "returns error message" in {
+  "Evaluating non-compiling code" should "return error message" in {
     assert(m.evalString("13 + 29 + ").isLeft)
   }
 
@@ -19,6 +19,7 @@ class RunTest extends AnyFlatSpec {
                  |    println(ce.getMessage)
                  |    ce.getMessage
                  |""".stripMargin
+
     assertResult(Right("Hello"))(m.evalString(code))
   }
 }
