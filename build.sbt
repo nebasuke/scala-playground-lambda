@@ -15,18 +15,13 @@ assemblyMergeStrategy in assembly := {
   case _ => MergeStrategy.first
 }
 
-
 val awsLambdaVersion = "1.2.1"
 val awsLambdaEventsVersion = "3.11.0"
-val circeVersion = "0.14.2"
 
 libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-lambda-java-core" % awsLambdaVersion,
   "com.amazonaws" % "aws-lambda-java-events" % awsLambdaEventsVersion,
   "com.couchbase.client" %% "scala-client" % "1.3.1",
-  "io.circe" %% "circe-core" % circeVersion,
-  "io.circe" %% "circe-generic" % circeVersion,
-  "io.circe" %% "circe-parser" % circeVersion,
   "org.scala-lang" % "scala-compiler" % scalaVersion.value,
   "org.scalatest" %% "scalatest" % "3.2.12" % Test,
 )

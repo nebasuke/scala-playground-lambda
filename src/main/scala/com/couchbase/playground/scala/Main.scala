@@ -23,11 +23,11 @@ class Main {
       resultOrFail match {
         case Left(err) => APIGatewayV2HTTPResponse.builder()
           .withStatusCode(200)
-          .withBody(GatewayOutput(error = Some(err)).toJsonString)
+          .withBody(GatewayOutput(error = err).toJsonString)
           .build()
         case Right(codeResult) => APIGatewayV2HTTPResponse.builder()
           .withStatusCode(200)
-          .withBody(GatewayOutput(output = Some(codeResult.output)).toJsonString)
+          .withBody(GatewayOutput(output = codeResult.output).toJsonString)
           .build()
       }
     }

@@ -1,21 +1,19 @@
 package com.couchbase.playground.scala
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent
-import io.circe.{Decoder, Encoder}
-import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
-import io.circe.parser._
+import com.couchbase.client.scala.implicits.Codec
+import upickle.default
+
+import scala.util.Try
 
 case class CBCredentials(connectionString: String, username: String, password: String, bucketName: String)
 
 object CBCredentials {
-  implicit val credentialDecoder: Decoder[CBCredentials] = deriveDecoder
-  implicit val credentialEncoder: Encoder[CBCredentials] = deriveEncoder
+  implicit val codec: Codec[CBCredentials] = Codec.codec[CBCredentials]
 
   def readFromString(s: String): Either[String, CBCredentials] = {
-    parse(s) match {
-      case Left(pf) => Left(pf.message)
-      case Right(json) => json.as[CBCredentials].left.map(_.message)
-    }
+    implicit val cbCredentialsRW: default.ReadWriter[CBCredentials] = upickle.default.macroRW
+    Try(upickle.default.read(s)).toEither.left.map(_.getMessage)
   }
 
   def fromApiGatewayEvent(apiGatewayEvent: APIGatewayV2HTTPEvent): Either[String, CBCredentials] = {

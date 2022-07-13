@@ -1,16 +1,12 @@
 package com.couchbase.playground.scala
 
-import io.circe.{Decoder, Encoder}
-import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import upickle.default
 
-case class GatewayOutput(error: Option[String] = None, output: Option[String] = None) {
+case class GatewayOutput(error: String = "", output: String = "") {
   def toJsonString: String = {
-    import io.circe.syntax._
-    this.asJson.noSpaces
+    upickle.default.write(this)
   }
 }
-
 object GatewayOutput {
-  implicit val gatewayOutputDecoder: Decoder[GatewayOutput] = deriveDecoder
-  implicit val gatewayOutputEncoder: Encoder[GatewayOutput] = deriveEncoder
+  implicit val GatewayOutputRW: default.ReadWriter[GatewayOutput] = upickle.default.macroRW
 }
