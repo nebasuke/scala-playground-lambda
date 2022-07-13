@@ -8,11 +8,13 @@ lazy val root = (project in file("."))
   )
 
 assemblyJarName in assembly := "lambda-scala-playground.jar"
+test in assembly := {}
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", _ @ _*) => MergeStrategy.discard
   case _ => MergeStrategy.first
 }
+
 
 val awsLambdaVersion = "1.2.1"
 val awsLambdaEventsVersion = "3.11.0"
