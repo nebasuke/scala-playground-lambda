@@ -31,6 +31,6 @@ object ExampleMap {
   )
 
   def getExample(key: String): Either[String, CodeExample] = {
-    ExampleMap.exampleMap.get(key).toRight(s"Example does not exists. Key: $key")
+    ExampleMap.exampleMap.get(key.toUpperCase).toRight(s"Example does not exists. Key: $key")
   }
 }
