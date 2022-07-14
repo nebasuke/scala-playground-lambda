@@ -33,8 +33,30 @@ class Main {
     }
   }
 
+  def getHandler(apiGatewayEvent: APIGatewayV2HTTPEvent, context: Context): APIGatewayV2HTTPResponse = {
+    if (!apiGatewayEvent.getQueryStringParameters.containsKey("id")) {
+      APIGatewayV2HTTPResponse.builder()
+        .withStatusCode(400)
+        .withBody("Missing query parameter id")
+        .build()
+    } else {
+      val key = apiGatewayEvent.getQueryStringParameters.get("id")
+      val codeExample: Either[String, CodeExample] = ExampleMap.getExample(key)
+      codeExample match {
+        case Left(err) => APIGatewayV2HTTPResponse.builder()
+          .withStatusCode(200)
+          .withBody(GatewayOutput(error = err).toJsonString)
+          .build()
+        case Right(codeExample) => APIGatewayV2HTTPResponse.builder()
+          .withStatusCode(200)
+          .withBody(codeExample.toJsonString)
+          .build()
+      }
+    }
+  }
+
   def evalFromMap[A](key: String, credentials: CBCredentials): Either[String, CodeResult[A]] = {
-    val codeExample: Either[String, CodeExample] = ExampleMap.exampleMap.get(key).toRight(s"Example does not exists. Key: $key")
+    val codeExample: Either[String, CodeExample] = ExampleMap.getExample(key)
     val exampleWithCredentials = codeExample.map(_.replaceCredentials(credentials))
 
     // To actually run code of the code example, we need to call the main method of the Program object.

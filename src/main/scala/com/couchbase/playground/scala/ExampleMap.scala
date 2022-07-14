@@ -25,6 +25,12 @@ object ExampleMap {
                    |    case Failure(err) => println("Error getting document: " + err)
                    |  }
                    |}""".stripMargin
-    )
+    ),
+
+
   )
+
+  def getExample(key: String): Either[String, CodeExample] = {
+    ExampleMap.exampleMap.get(key).toRight(s"Example does not exists. Key: $key")
+  }
 }

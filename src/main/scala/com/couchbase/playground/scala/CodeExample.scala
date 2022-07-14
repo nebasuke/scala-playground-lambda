@@ -1,6 +1,7 @@
 package com.couchbase.playground.scala
 
 import com.couchbase.playground.scala.CodeExample.{BUCKET, CONNECTION_STRING, PASSWORD, USERNAME}
+import upickle.default
 
 case class CodeExample(snippet: String, fullCode: String) {
   def replacePlaceholder(variable: String, value: String): CodeExample = {
@@ -15,6 +16,10 @@ case class CodeExample(snippet: String, fullCode: String) {
         .replacePlaceholder(PASSWORD, password)
         .replacePlaceholder(BUCKET, bucketName)
   }
+
+  def toJsonString: String = {
+    upickle.default.write(this)
+  }
 }
 
 object CodeExample {
@@ -22,4 +27,6 @@ object CodeExample {
   val USERNAME = "{credentials-username}"
   val PASSWORD = "{credentials-password}"
   val BUCKET = "{credentials-bucket}"
+
+  implicit val codeExampleRW: default.ReadWriter[CodeExample] = upickle.default.macroRW
 }
