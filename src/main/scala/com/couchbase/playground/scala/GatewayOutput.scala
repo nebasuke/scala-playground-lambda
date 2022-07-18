@@ -7,6 +7,7 @@ case class GatewayOutput(error: String = "", output: String = "") {
     upickle.default.write(this)
   }
 }
+
 object GatewayOutput {
   implicit val GatewayOutputRW: default.ReadWriter[GatewayOutput] = upickle.default.macroRW
 }

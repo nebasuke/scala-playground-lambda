@@ -5,7 +5,11 @@ import upickle.default
 
 import scala.util.Try
 
-case class CBCredentials(connectionString: String, username: String, password: String, bucketName: String)
+case class CBCredentials(connectionString: String, username: String, password: String, bucketName: String) {
+  def toJsonString: String = {
+    upickle.default.write(this)
+  }
+}
 
 object CBCredentials {
   implicit val cbCredentialsRW: default.ReadWriter[CBCredentials] = upickle.default.macroRW

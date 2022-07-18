@@ -27,7 +27,6 @@ object ExampleMap {
                    |}""".stripMargin
     ),
 
-
   )
 
   def getExample(key: String): Either[String, CodeExample] = {

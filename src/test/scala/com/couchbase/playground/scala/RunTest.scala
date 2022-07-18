@@ -6,7 +6,7 @@ class RunTest extends AnyFlatSpec {
   val m = new Main()
 
   "Evaluating simple code" should "return expected result" in {
-    assertResult(Right(CodeResult("", 42)))(m.evalString("13 + 29"))
+    assertResult(Right(CodeResult(isSuccessful = true, output = "42", exception = "", compilationError = "")))(m.evalString("13 + 29"))
   }
 
   "Evaluating non-compiling code" should "return error message" in {
@@ -20,6 +20,6 @@ class RunTest extends AnyFlatSpec {
                  |    ce.getMessage
                  |""".stripMargin
 
-    assertResult(Right(CodeResult("Hello", "Hello")))(m.evalString(code))
+    assertResult(Right(CodeResult(isSuccessful = true, output = "HelloHello", exception = "", compilationError = "")))(m.evalString(code))
   }
 }
